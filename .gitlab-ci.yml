@@ -48,12 +48,11 @@
 #     - echo "Deploying application..."
 #     - echo "Application successfully deployed."
 
-image: gitlab/dind
-stages:
-  - build
+services:
+  - docker:dind
 
 docker_build:
   stage: build
+  image: docker:latest
   script:
-    - docker build -t rachel/base:latest .
-    - docker push rachel/base:latest
+    - docker build -t example-image:latest .

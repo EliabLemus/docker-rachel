@@ -47,12 +47,19 @@
 #   script:
 #     - echo "Deploying application..."
 #     - echo "Application successfully deployed."
+variables:
+  DOCKER_DRIVER: overlay
 
 services:
   - docker:dind
+before_script:
+  - docker info
+
+stages:
+  - build
 
 docker_build:
   stage: build
-  image: docker:latest
   script:
-    - docker build -t example-image:latest .
+    - docker build -t rachel/base:latest .
+    - docker push rachel/base:latest

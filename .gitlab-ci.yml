@@ -55,5 +55,5 @@ stages:
 docker_build:
   stage: build
   script:
-    - docker build -t RACHEL/base:latest
-    - docker push RACHEL/base:latest
+    - docker build -t rachel/base:latest
+    - docker push rachel/base:latest

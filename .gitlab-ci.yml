@@ -48,6 +48,7 @@
 #     - echo "Deploying application..."
 #     - echo "Application successfully deployed."
 
+image: gitlab/dind
 stages:
   - build
 

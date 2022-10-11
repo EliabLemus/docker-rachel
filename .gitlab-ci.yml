@@ -52,10 +52,10 @@ variables:
 
 services:
   - name: docker:dind
+    alias: thedockerhost
     entrypoint: ["dockerd-entrypoint.sh", "--tls=false"]
 before_script:
   - docker info
-
 stages:
   - build
 
@@ -64,3 +64,10 @@ docker_build:
   script:
     - docker build -t rachel/base:latest .
     - docker push rachel/base:latest
+  variables:
+    # Tell docker CLI how to talk to Docker daemon; see
+    # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-executor
+    DOCKER_HOST: tcp://thedockerhost:2375/
+    # Use the overlayfs driver for improved performance:
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""

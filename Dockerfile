@@ -6,8 +6,9 @@ RUN mkdir /tmp/installer
 COPY Installer/ /tmp/installer/
 COPY entrypoint.sh /usr/bin/
 RUN apt-get update \
-    && apt-get install -y tzdata wget python3 whiptail python3-apt python3-dbus python3-psutil vim sudo curl php7.4
-RUN apt-get clean 
+    && apt-get install -y tzdata wget python3 whiptail python3-apt python3-dbus python3-psutil vim sudo curl php7.4 \
+    && apt-get clean
+ 
 
 #TODO: Improve school id handle
 COPY Installer/files/rachel/rachel_sudoers /etc/sudoers.d/rachel
@@ -20,8 +21,9 @@ RUN chmod +x /tmp/installer/installer.py
 
 WORKDIR /tmp/installer/
 
-RUN python3 installer.py --kiwix --school-id=1 --homepage=rachel.com
+RUN python3 installer.py --kiwix --kolibri --school-id=1 --homepage=rachel.com
 RUN sed 's/$fsmods{ $moddir }/$fsmods[ $moddir ]/g' -i /var/www/admin/common.php
+RUN apt-get clean
 
 EXPOSE 80 81
 ENTRYPOINT [ "/usr/bin/entrypoint.sh" ]

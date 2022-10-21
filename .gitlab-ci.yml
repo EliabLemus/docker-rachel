@@ -58,7 +58,6 @@ services:
 before_script:
   - apt-get -yq update
   - apt-get -yq install docker python3
-  - docker info
 stages:
   - build
 

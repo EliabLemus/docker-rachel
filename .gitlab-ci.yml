@@ -49,7 +49,8 @@
 #     - echo "Application successfully deployed."
 variables:
   DOCKER_DRIVER: overlay
-
+  image: ubuntu:latest
+  
 services:
   - name: docker:dind
     alias: thedockerhost

@@ -405,7 +405,7 @@ def install_kiwix():
     copy_file("files/kiwix/kiwix", "/etc/init.d/kiwix")
     sudo("chmod +x /etc/init.d/kiwix")
     sudo("update-rc.d kiwix defaults")
-    sudo("service kiwix start")
+    # sudo("service kiwix start")
     sudo("sh -c 'echo " + kiwix_version + " >/etc/kiwix-version'")
     log("Kiwix has been successfully installed.")
     

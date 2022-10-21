@@ -50,15 +50,16 @@
 variables:
   DOCKER_DRIVER: overlay
   image: ubuntu:latest
-  
+
 services:
   - name: docker:dind
     alias: thedockerhost
     entrypoint: ["dockerd-entrypoint.sh", "--tls=false"]
 before_script:
-  - docker info
   - apt-get -yq update
   - apt-get -yq python3
+  - apt-get -yq docker
+  - docker info
 stages:
   - build
 

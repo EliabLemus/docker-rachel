@@ -65,10 +65,10 @@ docker_build:
   #   - docker build -t rachel/base:latest .
   #   - docker push rachel/base:latest
   before_script:
-    - apt-get -yq update
-    - apt-get -yq install docker 
+    - apt-get -yq update 
     - apt-get -yq install python3
   script:
+    - apt-get -yq install docker
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
     - docker build -t $CI_REGISTRY_IMAGE .
     - docker push $CI_REGISTRY_IMAGE

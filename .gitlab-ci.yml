@@ -57,7 +57,8 @@ services:
     entrypoint: ["dockerd-entrypoint.sh", "--tls=false"]
 before_script:
   - apt-get -yq update
-  - apt-get -yq install docker python3
+  - apt-get -yq install docker 
+  - apt-get -yq install python3
 stages:
   - build
 

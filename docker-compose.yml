@@ -1,0 +1,8 @@
+version: '2.2'
+services:
+  kiwix:
+    image: 'registry.gitlab.com/imagenrachelbeta/docker-rachel:latest'
+    ports:
+      - 8080:80
+      - 8081:81
+    command: tail -f /dev/null

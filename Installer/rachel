@@ -1,0 +1,229 @@
+#! /bin/bash
+
+clear
+
+# Wifi settings
+wifi_hotspot=0
+wifi_ssid="RACHEL"
+wifi_channel="0"
+wifi_iface=""
+
+# Lan settings
+school_id="1"
+lan_iface=""
+
+# Service settings
+install_kiwix=0
+install_kolibri=0
+
+# Misc settings
+homepage="rachel.com"
+
+function log(){
+    echo "RACHEL: $1"
+}
+
+# Update the system
+function system_update(){
+    echo "RACHEL: Updating system"
+	apt-get update -y
+	apt-get upgrade -y
+
+    if (whiptail --title "System Update" --yesno "System successfully updated. Do you want to reboot now?" 8 78); then
+	    log "Successfully updated system. Rebooting now."
+        reboot
+	fi
+}
+
+function get_wired_settings(){
+    declare -a en_ifaces
+    log "Looking for wired network interfaces"
+
+    for entry in "/sys/class/net"/*
+    do
+      entry="$(basename $entry)"
+
+      log "Found network interface $entry"
+
+      if [[ $entry =~ "en" ]];
+      then
+          log "Adding $entry to wired interfaces"
+          en_ifaces+=("$entry")
+          en_ifaces+=("")
+      fi
+    done
+
+    if [ "${#en_ifaces[@]}" -eq 0 ]; then
+      whiptail --title "Installation Error" --msgbox "No wired network interfaces found. A wired network interface is required for installation." 8 78
+      log "No wired network interfaces found. A wired network interface is required for installation."
+      exit
+    fi
+
+    sel_iface=0
+
+    # -gt 2 because we add a "" for the dynamic menu to work 
+    if [ "${#en_ifaces[@]}" -gt 2 ]; then
+        sel_iface=$(whiptail --title "Select a wired interface" --menu "Select an option" 10 70 3 --nocancel --ok-button "" "${en_ifaces[@]}" 3>&2 2>&1 1>&3)
+        log "User Selected wired interface ${en_ifaces[$sel_iface]}"
+    fi
+
+    lan_iface="${en_ifaces[$sel_iface]}"
+    log "Using wired interface $lan_iface"
+    school_id=$(whiptail --inputbox "Please enter your School ID" 8 78 $school_id --title "School ID" 3>&1 1>&2 2>&3)   
+}
+
+function get_wireless_settings(){
+    declare -a wl_ifaces
+    log "Looking for wireless network interfaces"
+
+    # Get the network interfaces
+    for entry in "/sys/class/net"/*
+    do
+      entry="$(basename $entry)"
+
+      log "Found network interface $entry"
+
+      if [[ $entry =~ "wl" ]];
+      then
+          log "Adding $entry to wireless interfaces"
+          wl_ifaces+=("$entry")
+          wl_ifaces+=("")
+      fi
+    done
+
+    if [ "${#wl_ifaces[@]}" -eq 0 ]; then
+      whiptail --title "Installation Error" --msgbox "No wireless network interfaces found. A wireless network interface is required for hotspot installation." 8 78
+      log "No wireless network interfaces found. A wireless network interface is required for hotspot installation."
+      exit
+    fi
+
+    sel_iface=0
+
+    # -gt 2 because we add a "" for the dynamic menu to work 
+    if [ "${#en_ifaces[@]}" -gt 2 ]; then
+        sel_iface=$(whiptail --title "Select a wireless interface" --menu "Select an option" 10 70 3 --nocancel --ok-button "" "${wl_ifaces[@]}" 3>&2 2>&1 1>&3)
+        log "User Selected wireless interface ${wl_ifaces[$wifi_iface]}"
+    fi
+
+    wifi_iface="${wl_ifaces[$sel_iface]}"
+    log "Using wired interface $wifi_iface"
+
+    wifi_ssid=$(whiptail --inputbox "Please enter the wireless hotspot SSID" 8 78 $wifi_ssid --title "Wireless SSID" 3>&1 1>&2 2>&3)
+}
+
+function module_permissions(){
+    log "Setting module permissions"
+    chown -R www-data:www-data /var/www/modules
+    log "Finished setting module permissions"
+    whiptail --title "Permissions Set" --msgbox "Modules permissions have been successfully set." 8 78
+}
+
+function get_service_settings(){
+    # Install Kiwix
+    if (whiptail --title "Install Kiwix" --yesno "Do you want to install Kiwix for Wikipedia support?" 8 78); then
+	    install_kiwix=1
+    else
+	    install_kiwix=0
+    fi
+
+    # Install Kolibri
+    if (whiptail --title "Install Kolibri" --yesno "Do you want to install Kolibri?" 8 78); then
+	    install_kolibri=1
+    else
+	    install_kolibri=0
+    fi
+}
+
+function get_rachel_settings(){
+    homepage=$(whiptail --inputbox "Please enter a Homepage to access RACHEL" 8 78 $homepage --title "RACHEL Homepage" 3>&1 1>&2 2>&3)
+}
+
+# Build the python script switches and run the installer
+function install(){
+    log "Building install arguments"
+
+    declare -a switches
+	cmd=""
+	switches+=("python3 installer.py")
+
+    # Install Kiwix
+    if [ $install_kiwix -eq 1 ]; then
+        switches+=("--kiwix")
+	fi
+
+    # Install Kolibri
+    if [ $install_kolibri -eq 1 ]; then
+        switches+=("--kolibri")
+    fi
+
+    # Lan Interface
+    switches+=("--lan-iface="$lan_iface)
+
+    # Wifi Hotspot settings
+    if [ $wifi_hotspot -eq 1 ]; then
+        switches+=("--wifi-hotspot")
+        switches+=("--wifi-ssid="$wifi_ssid)
+        switches+=("--wifi-channel="$wifi_channel)
+        switches+=("--wifi-iface="$wifi_iface)
+    fi
+
+    # School ID
+    switches+=("--school-id="$school_id)
+
+    # Homepage
+    switches+=("--homepage="$homepage)
+
+    for switch in "${switches[@]}"
+    do
+        cmd=$cmd" "$switch
+    done
+    echo "Install command: ${cmd}"
+    if eval $cmd; then
+        whiptail --title "Install Successful" --msgbox "The RACHEL installation completed successfully. The system will now reboot." 8 78
+        echo "RACHEL: RACHEL successfully installed. Rebooting."
+        reboot
+    else
+        whiptail --title "Install Failed" --msgbox "The RACHEL Installation failed. Please exit the installer and read the console output to see what went wrong." 8 78
+        exit
+    fi
+}
+
+function setup(){
+    # get_wired_settings
+
+    # Toggle wifi installation
+    # if (whiptail --title "Install Wireless Hotspot" --yesno "Do you want to install a wireless hotspot?" 8 78); then
+    #     wifi_hotspot=1
+    #     get_wireless_settings
+    # else
+    #     wifi_hotspot=0
+    # fi
+
+    get_service_settings
+    get_rachel_settings
+    install
+}
+
+# Draw the main menu
+function drawMain(){
+    menu=$(
+    whiptail --title "RACHEL Linux Mint Installer" --menu "" 12 70 4 --nocancel --ok-button ""\
+        "1 System Update" ""\
+        "2 Install RACHEL" ""\
+        "3 Set Module Permissions" ""\
+        "4 Exit" "" 3>&2 2>&1 1>&3
+    )
+
+    case $menu in
+        1\ *) system_update;;
+        2\ *) setup;;
+        3\ *) module_permissions;;
+        4\ *) exit;;
+    esac
+}
+
+# The main menu loop
+while true; do
+    drawMain
+done
+exit

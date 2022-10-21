@@ -190,7 +190,7 @@ def install_content():
     copy_folder(basedir() + "/files/contentshell", "/var/www")
     sudo("chown -R www-data:www-data /var/www")
     sudo("usermod -a -G adm www-data")
-    sudo("chmod 777 /var/www/modules/en-file_share/uploads/")    
+    # sudo("chmod 777 /var/www/modules/en-file_share/uploads/")    
     log("Finished copying content shell to system")
     log("Content has been sucessfully installed.")
 

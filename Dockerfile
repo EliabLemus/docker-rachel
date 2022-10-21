@@ -20,7 +20,7 @@ RUN chmod +x /tmp/installer/installer.py
 
 WORKDIR /tmp/installer/
 
-RUN python3 installer.py --school-id=1 --homepage=rachel.com
+RUN python3 installer.py --kiwix --school-id=1 --homepage=rachel.com
 RUN sed 's/$fsmods{ $moddir }/$fsmods[ $moddir ]/g' -i /var/www/admin/common.php
 
 EXPOSE 80 81

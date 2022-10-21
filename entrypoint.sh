@@ -6,6 +6,7 @@ if [ "${1#-}" != "$1" ]; then
 	set -- php "$@"
 fi
 
+service kiwix start 
 exec "$@"
 # #!/bin/sh
 

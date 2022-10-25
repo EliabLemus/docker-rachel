@@ -392,7 +392,8 @@ def install_kiwix():
     sudo("mkdir -p /var/kiwix/bin")
     kiwix_version = "3.1.2"
     url   = "https://download.kiwix.org/release/kiwix-tools/"
-    tools = "kiwix-tools_linux-x86_64-0.9.0.tar.gz"
+    # tools = "kiwix-tools_linux-x86_64-0.9.0.tar.gz"
+    tools = "kiwix-tools_linux-x86_64-3.2.0-5.tar.gz"
     url   = url + tools
     log("Downloading version " + kiwix_version + " of kiwix.")
     sudo("sh -c 'wget -O - " + url + " | tar -xvz --strip 1 -C /var/kiwix/bin'")

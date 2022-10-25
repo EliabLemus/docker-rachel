@@ -6,11 +6,11 @@ RUN mkdir /tmp/installer
 COPY Installer/ /tmp/installer/
 COPY entrypoint.sh /usr/bin/
 RUN apt-get update \
-    && apt-get install -y tzdata wget python3 whiptail python3-apt python3-dbus python3-psutil vim sudo curl php7.4 \
+    && apt-get install -y curl net-tools php7.4 \
+    python3 python3-apt python3-dbus python3-psutil \
+    sudo tzdata vim wget whiptail \
     && apt-get clean
  
-
-#TODO: Improve school id handle
 COPY Installer/files/rachel/rachel_sudoers /etc/sudoers.d/rachel
 RUN chown root:root /etc/sudoers.d/rachel \
     && chmod 0440 /etc/sudoers.d/rachel \

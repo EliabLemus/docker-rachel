@@ -168,8 +168,8 @@ def install_content():
     log("Fixing common interface names")   
     common_file = basedir() + "/files/contentshell/admin/common.php"
 
-    with open(common_file, "r") as common_read:
-        lines = common_read.readlines()
+    # with open(common_file, "r") as common_read:
+    #     lines = common_read.readlines()
 
     # for index, line in enumerate(lines):
     #     if "#LAN_REPLACE" in line:
@@ -180,8 +180,8 @@ def install_content():
     #             wifi_line = "        $wifi_iface = '" + args.wifi_iface + "';\n"
     #             lines[index] = wifi_line
         
-    with open(common_file, "w") as common_write:
-        common_write.writelines(lines)
+    # with open(common_file, "w") as common_write:
+    #     common_write.writelines(lines)
             
     log("Finished fixing common interface names")
     log("Copying content shell to system")

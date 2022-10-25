@@ -1,7 +1,7 @@
 version: '2.2'
 services:
   rachel:
-    image: 'registry.gitlab.com/imagenrachelbeta/docker-rachel'
+    image: 'registry.gitlab.com/imagenrachelbeta/docker-rachel:latest'
     container_name: rachel
     ports:
       - 80:80

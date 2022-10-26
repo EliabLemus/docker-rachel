@@ -23,6 +23,7 @@ build: ## Builds Ranchel image then re-tag them
 publish: ## Pushes all images into the configured registry
 	$(foreach tag,$(TAGS),\
 		docker image push $(IMAGE_FULL_NAME):$(tag); )
+		
 .PHONY: build_arm
 build_arm:
 	docker image build --platform linux/arm64 -t $(IMAGE_FULL_NAME)-arm:$(DEFAULT_TAG) .

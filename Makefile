@@ -11,17 +11,17 @@ DEFAULT_TAG:=$(firstword $(TAGS))
 
 ## Default goal
 .PHONY: all
-all: clean build build_arm
+all: clean build
 
 .PHONY: build
 build: ## Builds Ranchel image then re-tag them
 	docker image build -t $(IMAGE_FULL_NAME):$(DEFAULT_TAG) .
 	$(foreach tag,$(subst $(DEFAULT_TAG),,$(TAGS)),\
 		docker image tag $(IMAGE_FULL_NAME):$(DEFAULT_TAG) $(IMAGE_FULL_NAME):$(tag); )
-build_arm:
 	docker image build --platform linux/arm64 -t $(IMAGE_FULL_NAME)-arm:$(DEFAULT_TAG) .
 	$(foreach tag,$(subst $(DEFAULT_TAG),,$(TAGS)),\
-	docker image tag $(IMAGE_FULL_NAME):$(DEFAULT_TAG) $(IMAGE_FULL_NAME)-arm:$(tag); )
+		docker image tag $(IMAGE_FULL_NAME):$(DEFAULT_TAG) $(IMAGE_FULL_NAME)-arm:$(tag); )
+
 .PHONY: publish
 publish: ## Pushes all images into the configured registry
 	$(foreach tag,$(TAGS),\

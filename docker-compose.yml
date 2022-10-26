@@ -8,4 +8,4 @@ services:
       - 81:81
       - 9090:9090
     volumes:
-      - ~/Devs/rachel_modules:/tmp/
+      - ~/Devs/rachel_modules:/tmp/rachel_modules

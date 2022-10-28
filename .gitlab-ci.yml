@@ -70,8 +70,9 @@ docker_build:
     # - export REGISTRY=$CI_REGISTRY && make build
     # - export REGISTRY=$CI_REGISTRY && make publish
     - echo $CI_REGISTRY_PASSWORD | docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY/$CI_PROJECT_PATH
-    - export REGISTRY=$CI_REGISTRY && make build
-    - export REGISTRY=$CI_REGISTRY && make publish
+    - export REGISTRY=$CI_REGISTRY/$CI_PROJECT_PATH && make build
+    - echo $CI_REGISTRY_PASSWORD | docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY/$CI_PROJECT_PATH
+    - export REGISTRY=$CI_REGISTRY/$CI_PROJECT_PATH && make publish
   variables:
     # Tell docker CLI how to talk to Docker daemon; see
     # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-executor

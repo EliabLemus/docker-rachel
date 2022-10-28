@@ -78,7 +78,9 @@ docker_build:
     DOCKER_TLS_CERTDIR: ""
 
 docker_build_arm:
-  stage: build
+  stage: buildß
+  tags:
+  - arm
   # script:
   #   - docker build -t rachel/base:latest .
   #   - docker push rachel/base:latest

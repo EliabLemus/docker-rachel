@@ -2,7 +2,7 @@
 
 ## Overridable values
 REGISTRY?=registry.gitlab.com
-IMAGE_NAME?=imagenrachelbeta/docker-rachel
+IMAGE_NAME?=rachel/docker-rachel
 TAGS?=latest 0.1.0
 
 ## Computed values

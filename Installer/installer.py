@@ -72,7 +72,7 @@ def sudo(s):
        die(s + " command failed")
 
 def install(s):
-    sudo("apt-get -y install " + s)
+    sudo("DEBIAN_FRONTEND=noninteractive apt-get -y install " + s)
 
 def install_webserver():
     log("Installing Web Server.")
@@ -159,6 +159,7 @@ def install_webserver():
         sudo("a2enmod xml2enc")
 
     sudo("service apache2 restart")
+    sudo("apt-get clean")
     log("Web Server has been successfully installed.")
 
 def install_content():
@@ -167,8 +168,8 @@ def install_content():
     log("Fixing common interface names")   
     common_file = basedir() + "/files/contentshell/admin/common.php"
 
-    with open(common_file, "r") as common_read:
-        lines = common_read.readlines()
+    # with open(common_file, "r") as common_read:
+    #     lines = common_read.readlines()
 
     # for index, line in enumerate(lines):
     #     if "#LAN_REPLACE" in line:
@@ -179,8 +180,8 @@ def install_content():
     #             wifi_line = "        $wifi_iface = '" + args.wifi_iface + "';\n"
     #             lines[index] = wifi_line
         
-    with open(common_file, "w") as common_write:
-        common_write.writelines(lines)
+    # with open(common_file, "w") as common_write:
+    #     common_write.writelines(lines)
             
     log("Finished fixing common interface names")
     log("Copying content shell to system")
@@ -391,7 +392,8 @@ def install_kiwix():
     sudo("mkdir -p /var/kiwix/bin")
     kiwix_version = "3.1.2"
     url   = "https://download.kiwix.org/release/kiwix-tools/"
-    tools = "kiwix-tools_linux-x86_64-0.9.0.tar.gz"
+    # tools = "kiwix-tools_linux-x86_64-0.9.0.tar.gz"
+    tools = "kiwix-tools_linux-x86_64-3.2.0-5.tar.gz"
     url   = url + tools
     log("Downloading version " + kiwix_version + " of kiwix.")
     sudo("sh -c 'wget -O - " + url + " | tar -xvz --strip 1 -C /var/kiwix/bin'")
@@ -415,14 +417,16 @@ def install_kolibri():
     install("dirmngr")
     sudo("add-apt-repository ppa:learningequality/kolibri -y")
     sudo("apt-get update")
-    sudo("apt-get install kolibri")
+    sudo("yes no |apt-get install kolibri")
     copy_file("files/kolibri/daemon.conf", "/etc/kolibri/daemon.conf")
     copy_file("files/kolibri/kolibri_initd", "/etc/init.d/kolibri")
     sudo("sh -c 'echo 0.14.3 > /etc/kolibri-version'")
     
     with open("/etc/kolibri/username", "w") as kolibri:
         kolibri.write("root")
-        
+    
+    sudo("apt-get clean")
+    
     log("Kolibri has been successfully installed.")
 
 def setup_permissions():

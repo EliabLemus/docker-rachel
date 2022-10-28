@@ -2,7 +2,7 @@
 
 ## Overridable values
 REGISTRY?=registry.gitlab.com
-IMAGE_NAME?=imagenrachelbeta/docker-rachel
+IMAGE_NAME?=rachel
 TAGS?=latest 0.1.0
 
 ## Computed values
@@ -23,10 +23,22 @@ build: ## Builds Ranchel image then re-tag them
 publish: ## Pushes all images into the configured registry
 	$(foreach tag,$(TAGS),\
 		docker image push $(IMAGE_FULL_NAME):$(tag); )
+		
+.PHONY: build_arm
+build_arm:
+	docker image build --platform linux/arm64 -t $(IMAGE_FULL_NAME)-arm:$(DEFAULT_TAG) .
+	$(foreach tag,$(subst $(DEFAULT_TAG),,$(TAGS)),\
+		docker image tag $(IMAGE_FULL_NAME):$(DEFAULT_TAG) $(IMAGE_FULL_NAME)-arm:$(tag); )
+
+.PHONY: publish_arm
+publish_arm:
+	$(foreach tag,$(TAGS),\
+		docker image push $(IMAGE_FULL_NAME)-arm:$(tag); )
 
 .PHONY: clean
 clean: ## Cleans docker env
 	docker image rm -f $(foreach tag,$(TAGS), $(IMAGE_FULL_NAME):$(tag))
+	docker image rm -f $(foreach tag,$(TAGS), $(IMAGE_FULL_NAME)-arm:$(tag))
 	docker system prune -f
 
 .PHONY: help

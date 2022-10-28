@@ -1,8 +1,11 @@
 version: '2.2'
 services:
-  kiwix:
-    image: 'registry.gitlab.com/imagenrachelbeta/docker-rachel:latest'
+  rachel:
+    image: 'registry.gitlab.com/rachel/docker-rachel:latest'
+    container_name: rachel
     ports:
-      - 8080:80
-      - 8081:81
-    command: tail -f /dev/null
+      - 80:80
+      - 81:81
+      - 9090:9090
+    volumes:
+      - ~/Devs/rachel_modules:/tmp/rachel_modules

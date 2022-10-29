@@ -6,6 +6,9 @@ if [ "${1#-}" != "$1" ]; then
 	set -- php "$@"
 fi
 
-service kiwix start&
-service kolibri start&
+service kolibri start &
+/usr/bin/python3 /var/kiwix/bin/rachel_kiwix.py --start
+sudo ln -sf /proc/$$/fd/1 /var/log/apache2/access.log
+sudo ln -sf /proc/$$/fd/2 /var/log/apache2/error.log
+
 exec "$@"

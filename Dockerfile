@@ -3,7 +3,8 @@ USER root
 LABEL maintainer="eliab.lemus.barrios@gmail.com"
 #Variables de entorno
 ENV DEBIAN_FRONTEND noninteractive
-RUN mkdir /tmp/installer
+ENV MODULES_PATH /tmp/rachel_modules
+RUN mkdir -p /tmp/installer /var/install_modules/bin
 #Provisionamiento
 COPY Installer/ /tmp/installer/
 COPY entrypoint.sh /usr/bin/
@@ -20,7 +21,9 @@ RUN chown root:root /etc/sudoers.d/rachel \
     && chmod 0440 /etc/sudoers.d/rachel \
     && echo '1' > /etc/school-id \ 
     && chmod +x /usr/bin/entrypoint.sh \
-    && chmod +x /tmp/installer/installer.py
+    && chmod +x /tmp/installer/installer.py \
+    && chmod +x /tmp/installer/install_modules.py \
+    && mv /tmp/installer/install_modules.py /var/install_modules/bin/.
 
 #Configuracion
 WORKDIR /tmp/installer/

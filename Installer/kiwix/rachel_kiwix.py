@@ -161,10 +161,10 @@ def buildLibrary():
     hidden = getHidden()
     zims   = getZims(web_root + '**/*.zim*')
 
-    if zims is not None and hidden is not None:
+    if zims != None and hidden != None:
         zims = removeHidden(zims, hidden)
 
-    if zims is None or len(zims) is 0:
+    if zims == None or len(zims) is 0:
         log("No zims were found")
         return
 

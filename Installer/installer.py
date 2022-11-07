@@ -626,6 +626,9 @@ def main():
     
     if args.kolibri_deb:
         install_kolibri_deb()
+        
+    if args.kiwix_deb:
+        install_kiwix_deb()
     # install_networking()
     setup_rachel()
 

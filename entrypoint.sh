@@ -9,7 +9,7 @@ fi
 
 service kolibri start &
 /usr/bin/python3 /var/kiwix/bin/rachel_kiwix.py --start
-/usr/bin/python3 /var/install_modules/bin/install_modules.py &
+/usr/bin/python3 /var/modules/bin/install.py &
 sudo ln -sf /proc/$$/fd/1 /var/log/apache2/access.log
 sudo ln -sf /proc/$$/fd/2 /var/log/apache2/error.log
 

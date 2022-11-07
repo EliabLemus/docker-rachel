@@ -415,7 +415,7 @@ def install_kolibri():
     log("Installing Kolibri.")
     install("software-properties-common")
     install("dirmngr")
-    sudo("add-apt-repository ppa:learningequality/kolibri -y")
+    sudo("add-apt-repository ppa:learningequality/kolibri-proposed -y")
     sudo("apt-get update")
     sudo("yes no |apt-get install kolibri")
     copy_file("files/kolibri/daemon.conf", "/etc/kolibri/daemon.conf")
@@ -428,6 +428,25 @@ def install_kolibri():
     sudo("apt-get clean")
     
     log("Kolibri has been successfully installed.")
+
+def install_kolibri_deb():
+    log("Installing Kolibri.")
+    install("software-properties-common")
+    install("dirmngr")
+    # sudo("add-apt-repository ppa:learningequality/kolibri-proposed -y")
+    sudo("apt-get update")
+    sudo("yes no |apt-get install kolibri")
+    copy_file("files/kolibri/daemon.conf", "/etc/kolibri/daemon.conf")
+    copy_file("files/kolibri/kolibri_initd", "/etc/init.d/kolibri")
+    sudo("sh -c 'echo 0.14.3 > /etc/kolibri-version'")
+    
+    with open("/etc/kolibri/username", "w") as kolibri:
+        kolibri.write("root")
+    
+    sudo("apt-get clean")
+    
+    log("Kolibri has been successfully installed.")
+
 
 def setup_permissions():
     log("Setting up permissions.")
@@ -520,6 +539,10 @@ def parse_args():
                          action='store_true',
                          help='Install Kolibri',
                          dest='kolibri')
+    service_args.add_argument('--kolibri_deb',
+                         action='store_true',
+                         help='Install Kolibri Debian',
+                         dest='kolibri_deb')
     service_args.add_argument('--php-version',
                          action='store',
                          default='7.2',
@@ -574,6 +597,8 @@ def main():
     if args.kolibri:
         install_kolibri()
     
+    if args.kolibri_deb:
+        install_kolibri_deb()
     # install_networking()
     setup_rachel()
 

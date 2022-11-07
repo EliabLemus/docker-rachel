@@ -23,22 +23,47 @@ build: ## Builds Ranchel image then re-tag them
 publish: ## Pushes all images into the configured registry
 	$(foreach tag,$(TAGS),\
 		docker image push $(IMAGE_FULL_NAME):$(tag); )
-		
-.PHONY: build_arm
-build_arm:
-	docker image build -f arm/Dockerfile --platform linux/arm/v7 -t $(IMAGE_FULL_NAME)-arm:$(DEFAULT_TAG) .
-	$(foreach tag,$(subst $(DEFAULT_TAG),,$(TAGS)),\
-		docker image tag $(IMAGE_FULL_NAME)-arm:$(DEFAULT_TAG) $(IMAGE_FULL_NAME)-arm:$(tag); )
 
-.PHONY: publish_arm
-publish_arm:
+.PHONY: build_armv6
+build_armv6:
+	docker image build -f arm/Dockerfile --platform linux/arm/v6 -t $(IMAGE_FULL_NAME)-armv6:$(DEFAULT_TAG) .
+	$(foreach tag,$(subst $(DEFAULT_TAG),,$(TAGS)),\
+		docker image tag $(IMAGE_FULL_NAME)-armv6:$(DEFAULT_TAG) $(IMAGE_FULL_NAME)-armv6:$(tag); )
+
+.PHONY: publish_armv6
+publish_armv6:
 	$(foreach tag,$(TAGS),\
-		docker image push $(IMAGE_FULL_NAME)-arm:$(tag); )
+		docker image push $(IMAGE_FULL_NAME)-armv6:$(tag); )
+
+.PHONY: build_armv7
+build_armv7:
+	docker image build -f arm/Dockerfile --platform linux/arm/v7 -t $(IMAGE_FULL_NAME)-armv7:$(DEFAULT_TAG) .
+	$(foreach tag,$(subst $(DEFAULT_TAG),,$(TAGS)),\
+		docker image tag $(IMAGE_FULL_NAME)-armv7:$(DEFAULT_TAG) $(IMAGE_FULL_NAME)-armv7:$(tag); )
+
+.PHONY: publish_armv7
+publish_armv7:
+	$(foreach tag,$(TAGS),\
+		docker image push $(IMAGE_FULL_NAME)-armv7:$(tag); )
+
+.PHONY: build_armv8
+build_armv8:
+	docker image build -f arm/Dockerfile --platform linux/arm/v8 -t $(IMAGE_FULL_NAME)-armv8:$(DEFAULT_TAG) .
+	$(foreach tag,$(subst $(DEFAULT_TAG),,$(TAGS)),\
+		docker image tag $(IMAGE_FULL_NAME)-armv8:$(DEFAULT_TAG) $(IMAGE_FULL_NAME)-armv8:$(tag); )
+
+.PHONY: publish_armv8
+publish_armv8:
+	$(foreach tag,$(TAGS),\
+		docker image push $(IMAGE_FULL_NAME)-armv8:$(tag); )
+
 
 .PHONY: clean
 clean: ## Cleans docker env
 	docker image rm -f $(foreach tag,$(TAGS), $(IMAGE_FULL_NAME):$(tag))
-	docker image rm -f $(foreach tag,$(TAGS), $(IMAGE_FULL_NAME)-arm:$(tag))
+	docker image rm -f $(foreach tag,$(TAGS), $(IMAGE_FULL_NAME)-armv6:$(tag))
+	docker image rm -f $(foreach tag,$(TAGS), $(IMAGE_FULL_NAME)-armv7:$(tag))
+	docker image rm -f $(foreach tag,$(TAGS), $(IMAGE_FULL_NAME)-armv8:$(tag))
 	docker system prune -f
 
 .PHONY: help

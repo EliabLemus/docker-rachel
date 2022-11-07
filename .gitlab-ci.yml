@@ -22,13 +22,35 @@ docker_build:
     DOCKER_HOST: tcp://thedockerhost:2375/
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
-docker_build_arm: 
+docker_build_armv6: 
   stage: build
   script:
     - echo $CI_REGISTRY_PASSWORD | docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY/$CI_PROJECT_PATH
-    - export REGISTRY=$CI_REGISTRY/$CI_PROJECT_PATH && make build_arm
+    - export REGISTRY=$CI_REGISTRY/$CI_PROJECT_PATH && make build_armv6
     - echo $CI_REGISTRY_PASSWORD | docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY/$CI_PROJECT_PATH
-    - export REGISTRY=$CI_REGISTRY/$CI_PROJECT_PATH && make publish_arm
+    - export REGISTRY=$CI_REGISTRY/$CI_PROJECT_PATH && make publish_armv6
+  variables:
+    DOCKER_HOST: tcp://thedockerhost:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+docker_build_armv7: 
+  stage: build
+  script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY/$CI_PROJECT_PATH
+    - export REGISTRY=$CI_REGISTRY/$CI_PROJECT_PATH && make build_armv7
+    - echo $CI_REGISTRY_PASSWORD | docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY/$CI_PROJECT_PATH
+    - export REGISTRY=$CI_REGISTRY/$CI_PROJECT_PATH && make publish_armv7
+  variables:
+    DOCKER_HOST: tcp://thedockerhost:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+docker_build_armv8: 
+  stage: build
+  script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY/$CI_PROJECT_PATH
+    - export REGISTRY=$CI_REGISTRY/$CI_PROJECT_PATH && make build_armv8
+    - echo $CI_REGISTRY_PASSWORD | docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY/$CI_PROJECT_PATH
+    - export REGISTRY=$CI_REGISTRY/$CI_PROJECT_PATH && make publish_armv8
   variables:
     DOCKER_HOST: tcp://thedockerhost:2375/
     DOCKER_DRIVER: overlay2

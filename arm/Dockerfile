@@ -33,7 +33,7 @@ RUN su -c 'echo "deb http://ppa.launchpad.net/learningequality/kolibri/ubuntu bi
 
 #Configuracion
 WORKDIR /tmp/installer/
-RUN python3 installer.py --kiwix --kolibri_deb --school-id=1 --homepage=rachel.com
+RUN python3 installer.py --kiwix --school-id=1 --homepage=rachel.com
 RUN sed 's/$fsmods{ $moddir }/$fsmods[ $moddir ]/g' -i /var/www/admin/common.php
 RUN apt-get clean
 

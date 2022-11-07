@@ -28,7 +28,7 @@ publish: ## Pushes all images into the configured registry
 build_arm:
 	docker image build -f arm/Dockerfile --platform linux/arm/v7 -t $(IMAGE_FULL_NAME)-arm:$(DEFAULT_TAG) .
 	$(foreach tag,$(subst $(DEFAULT_TAG),,$(TAGS)),\
-		docker image tag $(IMAGE_FULL_NAME):$(DEFAULT_TAG) $(IMAGE_FULL_NAME)-arm:$(tag); )
+		docker image tag $(IMAGE_FULL_NAME)-arm:$(DEFAULT_TAG) $(IMAGE_FULL_NAME)-arm:$(tag); )
 
 .PHONY: publish_arm
 publish_arm:

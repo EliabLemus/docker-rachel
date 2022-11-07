@@ -22,3 +22,14 @@ docker_build:
     DOCKER_HOST: tcp://thedockerhost:2375/
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
+docker_build_arm: 
+  stage: build
+  script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY/$CI_PROJECT_PATH
+    - export REGISTRY=$CI_REGISTRY/$CI_PROJECT_PATH && make build_arm
+    - echo $CI_REGISTRY_PASSWORD | docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY/$CI_PROJECT_PATH
+    - export REGISTRY=$CI_REGISTRY/$CI_PROJECT_PATH && make publish_arm
+  variables:
+    DOCKER_HOST: tcp://thedockerhost:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""

@@ -13,7 +13,7 @@ COPY entrypoint.sh /usr/bin/
 #Instalación de paquetes
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y curl net-tools php7.4 \
-    python3 python3-apt python3-dbus python3-psutil \
+    python3 python3-apt python3-dbus python3-psutil python3-pkg-resources \
     sudo tzdata vim wget whiptail dirmngr apt-utils\
     && apt-get clean
 #Permisos
@@ -26,14 +26,9 @@ RUN chown root:root /etc/sudoers.d/rachel \
     && chmod +x /tmp/installer/modules/install.py \
     && mv /tmp/installer/modules/install.py /var/modules/bin/.
 
-RUN su -c 'echo "deb http://ppa.launchpad.net/learningequality/kolibri/ubuntu bionic main" > /etc/apt/sources.list.d/learningequality-ubuntu-kolibri.list' \
-    && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys DC5BAA93F9E4AE4F0411F97C74F88ADB3194DD81 \
-    && apt-get update
-
-
 #Configuracion
 WORKDIR /tmp/installer/
-RUN python3 installer.py --kiwix_deb --school-id=1 --homepage=rachel.com
+RUN python3 installer.py --kiwix_deb --kolibri_deb --school-id=1 --homepage=rachel.com
 RUN sed 's/$fsmods{ $moddir }/$fsmods[ $moddir ]/g' -i /var/www/admin/common.php
 RUN apt-get clean
 

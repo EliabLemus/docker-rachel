@@ -1,0 +1,11 @@
+version: '2.2'
+services:
+  rachel:
+    image: 'registry.gitlab.com/rachel-arm:latest'
+    container_name: rachel
+    ports:
+      - 80:80
+      - 81:81
+      - 9090:9090
+    volumes:
+      - ~/Devs/rachel_modules:/tmp/rachel_modules

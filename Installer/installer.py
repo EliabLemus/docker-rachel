@@ -431,11 +431,8 @@ def install_kolibri():
 
 def install_kolibri_deb():
     log("Installing Kolibri.")
-    install("software-properties-common")
-    install("dirmngr")
     # sudo("add-apt-repository ppa:learningequality/kolibri-proposed -y")
-    sudo("apt-get update")
-    sudo("yes no |apt-get install kolibri")
+    install("kolibri")
     copy_file("files/kolibri/daemon.conf", "/etc/kolibri/daemon.conf")
     copy_file("files/kolibri/kolibri_initd", "/etc/init.d/kolibri")
     sudo("sh -c 'echo 0.14.3 > /etc/kolibri-version'")

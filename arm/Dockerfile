@@ -14,7 +14,7 @@ COPY entrypoint.sh /usr/bin/
 RUN apt-get update \
     && apt-get install -y curl net-tools php7.4 \
     python3 python3-apt python3-dbus python3-psutil \
-    sudo tzdata vim wget whiptail dirmngr\
+    sudo tzdata vim wget whiptail dirmngr apt-utils\
     && apt-get clean
 #Permisos
 COPY Installer/files/rachel/rachel_sudoers /etc/sudoers.d/rachel
@@ -33,7 +33,7 @@ RUN su -c 'echo "deb http://ppa.launchpad.net/learningequality/kolibri/ubuntu bi
 
 #Configuracion
 WORKDIR /tmp/installer/
-RUN python3 installer.py --kiwix --school-id=1 --homepage=rachel.com
+RUN python3 installer.py --kiwix --kolibri_deb --school-id=1 --homepage=rachel.com
 RUN sed 's/$fsmods{ $moddir }/$fsmods[ $moddir ]/g' -i /var/www/admin/common.php
 RUN apt-get clean
 

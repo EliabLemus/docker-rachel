@@ -410,6 +410,32 @@ def install_kiwix():
     # sudo("service kiwix start")
     sudo("sh -c 'echo " + kiwix_version + " >/etc/kiwix-version'")
     log("Kiwix has been successfully installed.")
+
+def install_kiwix_deb():
+    log("Installing Kiwix")
+    # install('python3-psutil')
+    sudo("mkdir -p /var/kiwix/bin")
+    kiwix_version = "3.1.2"
+    url   = "https://download.kiwix.org/release/kiwix-tools/"
+    # tools = "kiwix-tools_linux-x86_64-0.9.0.tar.gz"
+    tools = "kiwix-tools_linux-armhf-3.2.0-5.tar.gz"
+    url   = url + tools
+    log("Downloading version " + kiwix_version + " of kiwix.")
+    sudo("sh -c 'wget -O - " + url + " | tar -xvz --strip 1 -C /var/kiwix/bin'")
+    copy_file("files/kiwix/kiwix-sample.zim", "/var/kiwix/sample.zim")
+    sudo("chown -R root:root /var/kiwix/bin")
+    copy_file("files/kiwix/kiwix-sample-library.xml",
+              "/var/kiwix/sample-library.xml")
+    copy_file("files/kiwix/rachel_kiwix.py",
+              "/var/kiwix/bin/rachel_kiwix.py")
+    sudo("chmod +x /var/kiwix/bin/rachel_kiwix.py")
+    copy_file("files/kiwix/kiwix", "/etc/init.d/kiwix")
+    sudo("chmod +x /etc/init.d/kiwix")
+    sudo("update-rc.d kiwix defaults")
+    # sudo("service kiwix start")
+    sudo("sh -c 'echo " + kiwix_version + " >/etc/kiwix-version'")
+    log("Kiwix has been successfully installed.")
+
     
 def install_kolibri():
     log("Installing Kolibri.")
@@ -532,6 +558,10 @@ def parse_args():
                          action='store_true',
                          help='Install Kiwix',
                          dest='kiwix')
+    service_args.add_argument('--kiwix_deb',
+                        action='store_true',
+                        help='Install Kiwix',
+                        dest='kiwix_deb')
     service_args.add_argument('--kolibri',
                          action='store_true',
                          help='Install Kolibri',

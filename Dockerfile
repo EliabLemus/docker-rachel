@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:jammy
 USER root
 LABEL maintainer="eliab.lemus.barrios@gmail.com"
 #Variables de entorno
@@ -11,7 +11,7 @@ COPY entrypoint.sh /usr/bin/
 
 #Instalación de paquetes
 RUN apt-get update \
-    && apt-get install -y curl net-tools php7.4 \
+    && apt-get install -y apt-utils curl net-tools php7.4 \
     python3 python3-apt python3-dbus python3-psutil \
     sudo tzdata vim wget whiptail \
     && apt-get clean

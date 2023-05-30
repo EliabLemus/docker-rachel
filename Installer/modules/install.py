@@ -48,6 +48,7 @@ def install_modules():
         if(zim>0 or zip>0):
             print('run --sync')
             cmd('/usr/bin/python3 /var/kiwix/bin/rachel_kiwix.py --sync')
+            cmd('/etc/init.d/apache2 reload')
             
             
     else:

@@ -458,10 +458,12 @@ def install_kolibri():
 def install_kolibri_deb():
     log("Installing Kolibri.")
     # sudo("add-apt-repository ppa:learningequality/kolibri-proposed -y")
-    url="https://storage.googleapis.com/le-releases/downloads/kolibri/v0.15.8/kolibri_0.15.8-0ubuntu1_all.deb"
+    # url="https://storage.googleapis.com/le-releases/downloads/kolibri/v0.15.8/kolibri_0.15.8-0ubuntu1_all.deb"
+    url="https://learningequality.org/r/kolibri-deb-latest"
     # install("kolibri")
     sudo("wget " + url)
-    sudo("dpkg -i kolibri_0.15.8-0ubuntu1_all.deb")
+    # sudo("dpkg -i kolibri_0.15.8-0ubuntu1_all.deb")
+    sudo("dpkg -i kolibri-deb-latest")
     copy_file("files/kolibri/daemon.conf", "/etc/kolibri/daemon.conf")
     copy_file("files/kolibri/kolibri_initd", "/etc/init.d/kolibri")
     sudo("sh -c 'echo 0.15.8 > /etc/kolibri-version'")

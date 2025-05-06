@@ -3,7 +3,7 @@
 ## Overridable values
 REGISTRY?=registry.gitlab.com
 IMAGE_NAME?=rachel
-TAGS?=latest 0.1.0
+TAGS?=latest 0.1.1
 
 ## Computed values
 IMAGE_FULL_NAME:=$(REGISTRY)/$(IMAGE_NAME)

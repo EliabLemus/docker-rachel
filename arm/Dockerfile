@@ -1,22 +1,40 @@
-FROM debian:bullseye
+FROM php:7.4-apache
+
 USER root
 LABEL maintainer="eliab.lemus.barrios@gmail.com"
-#Variables de entorno
-ENV DEBIAN_FRONTEND noninteractive
-ENV MODULES_PATH /tmp/rachel_modules
+
+# Variables de entorno
+ENV DEBIAN_FRONTEND=noninteractive
+ENV MODULES_PATH=/tmp/rachel_modules
+
+# Crear carpetas necesarias
 RUN mkdir -p /tmp/installer /var/modules/bin
-#Provisionamiento
+
+# Copiar instaladores personalizados y entrypoint
 COPY Installer/ /tmp/installer/
 COPY entrypoint.sh /usr/bin/
 
+# Instalar paquetes del sistema y extensiones PHP
+RUN apt-get update && apt-get install -y \
+    curl \
+    net-tools \
+    python3 \
+    python3-apt \
+    python3-dbus \
+    python3-psutil \
+    python3-pkg-resources \
+    sudo \
+    tzdata \
+    vim \
+    wget \
+    whiptail \
+    dirmngr \
+    apt-utils \
+    libonig-dev \ 
+    && apt-get clean \
+    && docker-php-ext-install pdo_mysql mbstring bcmath
 
-#Instalación de paquetes
-RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y curl net-tools php7.4 \
-    python3 python3-apt python3-dbus python3-psutil python3-pkg-resources \
-    sudo tzdata vim wget whiptail dirmngr apt-utils\
-    && apt-get clean
-#Permisos
+# Permisos y archivos especiales
 COPY Installer/files/rachel/rachel_sudoers /etc/sudoers.d/rachel
 RUN chown root:root /etc/sudoers.d/rachel \
     && chmod 0440 /etc/sudoers.d/rachel \
@@ -26,12 +44,8 @@ RUN chown root:root /etc/sudoers.d/rachel \
     && chmod +x /tmp/installer/modules/install.py \
     && mv /tmp/installer/modules/install.py /var/modules/bin/.
 
-#Configuracion
-WORKDIR /tmp/installer/
-RUN python3 installer.py --kiwix_deb --kolibri_deb --school-id=1 --homepage=rachel.com
-RUN sed 's/$fsmods{ $moddir }/$fsmods[ $moddir ]/g' -i /var/www/admin/common.php
-RUN apt-get clean
+# Configuración del directorio de trabajo
+WORKDIR /var/www/html
 
-EXPOSE 80 81
-ENTRYPOINT [ "/usr/bin/entrypoint.sh" ]
-CMD /usr/sbin/apache2ctl -D FOREGROUND
+# Entrypoint
+ENTRYPOINT ["/usr/bin/entrypoint.sh"]

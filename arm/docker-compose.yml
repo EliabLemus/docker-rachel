@@ -1,7 +1,7 @@
 version: '2.2'
 services:
   rachel:
-    image: 'registry.gitlab.com/rachel:latest'
+    image: 'registry.gitlab.com/rachel-arm:latest'
     container_name: rachel
     ports:
       - 80:80

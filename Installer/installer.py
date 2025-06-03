@@ -410,12 +410,38 @@ def install_kiwix():
     # sudo("service kiwix start")
     sudo("sh -c 'echo " + kiwix_version + " >/etc/kiwix-version'")
     log("Kiwix has been successfully installed.")
+
+def install_kiwix_deb():
+    log("Installing Kiwix")
+    # install('python3-psutil')
+    sudo("mkdir -p /var/kiwix/bin")
+    kiwix_version = "3.1.2"
+    url   = "https://download.kiwix.org/release/kiwix-tools/"
+    # tools = "kiwix-tools_linux-x86_64-0.9.0.tar.gz"
+    tools = "kiwix-tools_linux-armhf-3.2.0-5.tar.gz"
+    url   = url + tools
+    log("Downloading version " + kiwix_version + " of kiwix.")
+    sudo("sh -c 'wget -O - " + url + " | tar -xvz --strip 1 -C /var/kiwix/bin'")
+    copy_file("files/kiwix/kiwix-sample.zim", "/var/kiwix/sample.zim")
+    sudo("chown -R root:root /var/kiwix/bin")
+    copy_file("files/kiwix/kiwix-sample-library.xml",
+              "/var/kiwix/sample-library.xml")
+    copy_file("files/kiwix/rachel_kiwix.py",
+              "/var/kiwix/bin/rachel_kiwix.py")
+    sudo("chmod +x /var/kiwix/bin/rachel_kiwix.py")
+    copy_file("files/kiwix/kiwix", "/etc/init.d/kiwix")
+    sudo("chmod +x /etc/init.d/kiwix")
+    sudo("update-rc.d kiwix defaults")
+    # sudo("service kiwix start")
+    sudo("sh -c 'echo " + kiwix_version + " >/etc/kiwix-version'")
+    log("Kiwix has been successfully installed.")
+
     
 def install_kolibri():
     log("Installing Kolibri.")
     install("software-properties-common")
     install("dirmngr")
-    sudo("add-apt-repository ppa:learningequality/kolibri -y")
+    sudo("add-apt-repository ppa:learningequality/kolibri-proposed -y")
     sudo("apt-get update")
     sudo("yes no |apt-get install kolibri")
     copy_file("files/kolibri/daemon.conf", "/etc/kolibri/daemon.conf")
@@ -428,6 +454,27 @@ def install_kolibri():
     sudo("apt-get clean")
     
     log("Kolibri has been successfully installed.")
+
+def install_kolibri_deb():
+    log("Installing Kolibri.")
+    # sudo("add-apt-repository ppa:learningequality/kolibri-proposed -y")
+    # url="https://storage.googleapis.com/le-releases/downloads/kolibri/v0.15.8/kolibri_0.15.8-0ubuntu1_all.deb"
+    url="https://learningequality.org/r/kolibri-deb-latest"
+    # install("kolibri")
+    sudo("wget " + url)
+    # sudo("dpkg -i kolibri_0.15.8-0ubuntu1_all.deb")
+    sudo("dpkg -i kolibri-deb-latest")
+    copy_file("files/kolibri/daemon.conf", "/etc/kolibri/daemon.conf")
+    copy_file("files/kolibri/kolibri_initd", "/etc/init.d/kolibri")
+    sudo("sh -c 'echo 0.15.8 > /etc/kolibri-version'")
+    
+    with open("/etc/kolibri/username", "w") as kolibri:
+        kolibri.write("root")
+    
+    sudo("apt-get clean")
+    
+    log("Kolibri has been successfully installed.")
+
 
 def setup_permissions():
     log("Setting up permissions.")
@@ -516,10 +563,18 @@ def parse_args():
                          action='store_true',
                          help='Install Kiwix',
                          dest='kiwix')
+    service_args.add_argument('--kiwix_deb',
+                        action='store_true',
+                        help='Install Kiwix',
+                        dest='kiwix_deb')
     service_args.add_argument('--kolibri',
                          action='store_true',
                          help='Install Kolibri',
                          dest='kolibri')
+    service_args.add_argument('--kolibri_deb',
+                         action='store_true',
+                         help='Install Kolibri Debian',
+                         dest='kolibri_deb')
     service_args.add_argument('--php-version',
                          action='store',
                          default='7.2',
@@ -574,6 +629,11 @@ def main():
     if args.kolibri:
         install_kolibri()
     
+    if args.kolibri_deb:
+        install_kolibri_deb()
+        
+    if args.kiwix_deb:
+        install_kiwix_deb()
     # install_networking()
     setup_rachel()
 

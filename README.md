@@ -1,112 +1,68 @@
 # docker-rachel
 
+> 🇪🇸 Español | 🇬🇧 English below
 
+---
 
-## Getting started
+## 🇪🇸 Descripción
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Este repositorio contiene una **containerización en Docker** del proyecto [RACHEL](https://mundoposible.org/es/mundoposible/rachel), con el objetivo de facilitar su despliegue en entornos modernos mediante contenedores.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+Este no es un desarrollo propio ni una modificación del contenido original de RACHEL. Simplemente automatiza la creación de una imagen Docker para correr el software educativo distribuido por la organización [Mundo Posible](https://mundoposible.org/).
 
-## Add your files
+- Utiliza el contenido y software original de RACHEL disponible públicamente.
+- Permite ejecutar RACHEL en dispositivos compatibles con Docker, como Raspberry Pi.
+- Proyecto de uso personal, educativo y sin fines de lucro.
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+## ⚠️ Aviso Legal
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/rachel/docker-rachel.git
-git branch -M main
-git push -uf origin main
-```
+Este proyecto:
 
-## Integrate with your tools
+- **No** es oficial ni está afiliado con Mundo Posible o World Possible.
+- **No** modifica ni redistribuye el contenido de RACHEL de manera alterada.
+- Solo automatiza su instalación para uso personal y educativo.
 
-- [ ] [Set up project integrations](https://gitlab.com/rachel/docker-rachel/-/settings/integrations)
+Todo el contenido utilizado sigue sujeto a las licencias originales establecidas por los desarrolladores de RACHEL y Mundo Posible. Si eres parte de la organización y deseas que se retire o modifique algún contenido, por favor contáctame y atenderé cualquier solicitud de inmediato.
 
-## Collaborate with your team
+## 📎 Enlaces
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+- Repositorio original: [RACHEL - Mundo Posible](https://mundoposible.org/es/mundoposible/rachel)
+- Proyecto personal en GitHub: [github.com/EliabLemus/docker-rachel](https://github.com/EliabLemus/docker-rachel)
 
-## Test and Deploy
+## 📩 Contacto
 
-Use the built-in continuous integration in GitLab.
+Este proyecto fue creado por Eliab Lemus como una iniciativa personal.  
+Para dudas o sugerencias, puedes abrir un issue o escribirme directamente.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+---
 
-***
+## 🇬🇧 English Description
 
-# Editing this README
+This repository contains a **Docker containerization** of the [RACHEL](https://mundoposible.org/es/mundoposible/rachel) project, aimed at simplifying its deployment using modern container technologies.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+This is **not** a custom development or modification of the original RACHEL content. It simply automates the creation of a Docker image to run the educational platform distributed by [Mundo Posible](https://mundoposible.org/) / [World Possible](https://worldpossible.org/).
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+- Uses the original, publicly available RACHEL content and software.
+- Allows RACHEL to run on Docker-compatible devices such as Raspberry Pi.
+- This is a **personal**, **non-commercial**, **educational** project.
 
-## Name
-Choose a self-explaining name for your project.
+## ⚠️ Legal Disclaimer
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+This project:
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+- Is **not** official nor affiliated with Mundo Posible or World Possible.
+- Does **not** alter or redistribute RACHEL content.
+- Only automates deployment for personal and educational purposes.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+All content remains under the original license and copyrights of RACHEL and Mundo Posible.  
+If you are a representative of the organization and would like this content removed or modified, please contact me and I will act accordingly and promptly.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+## 📎 Relevant Links
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+- Original site: [RACHEL - Mundo Posible](https://mundoposible.org/es/mundoposible/rachel)
+- Personal project repo: [github.com/EliabLemus/docker-rachel](https://github.com/EliabLemus/docker-rachel)
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+## 📩 Contact
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
-
-
-```bash
-sudo apt-get update
-sudo apt-get install docker.io
-```
-
-```yaml
-version: '2.2'
-services:
-  rachel:
-    image: 'registry.gitlab.com/imagenrachelbeta/docker-rachel/rachel:latest' #ubicación y version de la imagen
-    container_name: rachel 
-    ports: 
-      - 80:80
-      - 81:81
-      - 9090:9090
-    volumes:
-      - ~/Devs/rachel_modules:/tmp/rachel_modules
-```
+This project was created by Eliab Lemus as a personal initiative.  
+For questions or suggestions, feel free to open an issue or contact me directly.

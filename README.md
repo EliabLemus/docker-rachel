@@ -90,3 +90,23 @@ For open source projects, say how it is licensed.
 
 ## Project status
 If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+
+
+```bash
+sudo apt-get update
+sudo apt-get install docker.io
+```
+
+```yaml
+version: '2.2'
+services:
+  rachel:
+    image: 'registry.gitlab.com/imagenrachelbeta/docker-rachel/rachel:latest' #ubicación y version de la imagen
+    container_name: rachel 
+    ports: 
+      - 80:80
+      - 81:81
+      - 9090:9090
+    volumes:
+      - ~/Devs/rachel_modules:/tmp/rachel_modules
+```
